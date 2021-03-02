@@ -10,6 +10,8 @@ btnAgregar.addEventListener('click', function (){
     modalProducto.show();
 })
 
+// traer los datos del localstorage.
+leerDatos();
 
 
 window.agregarFunkopop = function (event){
@@ -69,4 +71,66 @@ function leerDatos(){
 
 function dibujarTabla(productosFunkopop){
     console.log(productosFunkopop);
+    // traer el tbody padre
+    let tCuerpo = document.getElementById('tablaFunkopop');
+    let filaFunko ='';
+    // limpiar el tbody
+    tCuerpo.innerHTML='';
+
+    // for(let i=0; i < productosFunkopop.length; i++){}
+    for(let i in productosFunkopop){
+        //dibujar cada fila
+        filaFunko = `<tr>
+        <th scope="row">${productosFunkopop[i].codigo}</th>
+        <td>${productosFunkopop[i].nombre}</td>
+        <td>${productosFunkopop[i].numSerie}</td>
+        <td>${productosFunkopop[i].categoria}</td>
+        <td>${productosFunkopop[i].descripcion}</td>
+        <td>${productosFunkopop[i].imagen}</td>
+        <td>
+          <button class="btn btn-warning">Editar</button>
+          <button class="btn btn-danger" onclick="eliminarFunkopop(this)" 
+          id="${productosFunkopop[i].codigo}">Borrar</button>
+        </td>
+      </tr>`;
+        // agregar fila en el elemento padre
+        tCuerpo.innerHTML += filaFunko;
+    }
 }
+
+window.eliminarFunkopop = function (boton){
+    console.log(boton.id)
+    // mostrar un mensaje para estar seguro de eliminar
+    Swal.fire({
+        title: 'Esta seguro de eliminar el funkopop',
+        text: "No puedes volver atras luego de este paso",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si',
+        cancelButtonText:'Cancelar'
+      }).then((result) => {
+        //   if(true)
+        if (result.isConfirmed) {
+            //borrar el funkopop 
+            // buscar el objeto que quiero borrar usando su codigo
+            // quitar el objeto encontrado del arreglo
+            let productosFiltrados = listaFunkopop.filter( function (producto){
+                return producto.codigo != boton.id;
+            })
+            console.log(productosFiltrados);
+            // guardar el arreglo en localstorage
+
+            // invocar a la funcion leerdatos
+
+          Swal.fire(
+            'Funkopop eliminado',
+            'El funkopop seleccionado fue eliminado',
+            'success'
+          )
+        }
+      })
+}
+
+

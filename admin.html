@@ -52,41 +52,30 @@
       </section>
       <section>
         <div class="row">
-          <div class="col-10">
+          <div class="col-8">
             <h3>Tabla de productos</h3>
           </div>
           <div class="col-2">
-            <button class="btn btn-primary" id="btnAgregar" 
-           >Agregar</button>
+            <button class="btn btn-primary" id="btnAgregar">Agregar</button>
           </div>
         </div>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Numero Serie</th>
-              <th scope="col">Categoria</th>
-              <th scope="col">Descripcion</th>
-              <th scope="col">Imagen</th>
-              <th scope="col">Opciones</th>
-            </tr>
-          </thead>
-          <tbody id="tablaFunkopop">
-            <tr>
-              <th scope="row">1</th>
-              <td>Batman</td>
-              <td>DC6786</td>
-              <td>DC</td>
-              <td>Caballero de la noche</td>
-              <td>no disponible</td>
-              <td>
-                <button class="btn btn-warning">Editar</button>
-                <button class="btn btn-danger">Borrar</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Numero Serie</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Imagen</th>
+                <th scope="col">Opciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaFunkopop">
+            </tbody>
+          </table>
+        </div>
       </section>
     </main>
     <!-- Modal Funkopop -->
@@ -109,33 +98,63 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form id='formFunkopop' onsubmit="agregarFunkopop(event)">
-                <div class="mb-3">
-                    <label class="form-label">Codigo</label>
-                    <input type="text" class="form-control" id='codigo' placeholder="Ingrese un codigo">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id='nombre' placeholder="Batman">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Numero de serie</label>
-                    <input type="text" class="form-control" id='numSerie' placeholder="DC78979">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Categoria</label>
-                    <input type="text" class="form-control" id='categoria' placeholder="DC">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Descripcion</label>
-                    <!-- modificar el input por textarea -->
-                    <input type="text" class="form-control" id='descripcion' placeholder="Caballero de la noche">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Imagen</label>
-                    <input type="text" class="form-control" id='imagen' placeholder="agregar nombre imagen">
-                </div>
-                <button class="btn btn-primary" type="submit">Guardar</button>
+            <form id="formFunkopop" onsubmit="agregarFunkopop(event)">
+              <div class="mb-3">
+                <label class="form-label">Codigo</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="codigo"
+                  placeholder="Ingrese un codigo"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nombre"
+                  placeholder="Batman"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Numero de serie</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="numSerie"
+                  placeholder="DC78979"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Categoria</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="categoria"
+                  placeholder="DC"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Descripcion</label>
+                <!-- modificar el input por textarea -->
+                <input
+                  type="text"
+                  class="form-control"
+                  id="descripcion"
+                  placeholder="Caballero de la noche"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Imagen</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="imagen"
+                  placeholder="agregar nombre imagen"
+                />
+              </div>
+              <button class="btn btn-primary" type="submit">Guardar</button>
             </form>
           </div>
         </div>
@@ -147,6 +166,6 @@
       integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
       crossorigin="anonymous"
     ></script>
-    <script type='module' src="js/admin.js"></script>
+    <script type="module" src="js/admin.js"></script>
   </body>
 </html>
