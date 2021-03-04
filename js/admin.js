@@ -4,9 +4,14 @@ import {Funko} from './funkoClass.js'
 let listaFunkopop = [];
 // aqui traer la ventana modal
 const modalProducto = new bootstrap.Modal(document.getElementById('modalProducto'));
+// variable booleana para guardar o agregar un funkopop
+// modificarFunkopop = false en este caso agrego un nuevo funkopop
+// modificarFunkopop = true en este caso estoy modificando el funkopop
+let modificarFunkopop = false;
 
 let btnAgregar = document.getElementById('btnAgregar');
 btnAgregar.addEventListener('click', function (){
+    limpiarFormulario();
     modalProducto.show();
 })
 
@@ -14,8 +19,7 @@ btnAgregar.addEventListener('click', function (){
 leerDatos();
 
 
-window.agregarFunkopop = function (event){
-    event.preventDefault();
+function agregarFunkopop (){
     console.log('desde la funcion agregar producto')
     // aqui preguntar si todos los campos estan correctamente validados (validar general)
 
@@ -53,6 +57,8 @@ window.agregarFunkopop = function (event){
 function limpiarFormulario(){
     // resetea los valores del formulario
     document.getElementById('formFunkopop').reset();
+    // reseteo variable modificarFunkopop
+    modificarFunkopop=false;
 }
 
 
@@ -88,7 +94,7 @@ function dibujarTabla(productosFunkopop){
         <td>${productosFunkopop[i].descripcion}</td>
         <td>${productosFunkopop[i].imagen}</td>
         <td>
-          <button class="btn btn-warning">Editar</button>
+          <button class="btn btn-warning" onclick='prepararFunkopop(this)' id='${productosFunkopop[i].codigo}'>Editar</button>
           <button class="btn btn-danger" onclick="eliminarFunkopop(this)" 
           id="${productosFunkopop[i].codigo}">Borrar</button>
         </td>
@@ -116,14 +122,16 @@ window.eliminarFunkopop = function (boton){
             //borrar el funkopop 
             // buscar el objeto que quiero borrar usando su codigo
             // quitar el objeto encontrado del arreglo
-            let productosFiltrados = listaFunkopop.filter( function (producto){
-                return producto.codigo != boton.id;
-            })
+            // let productosFiltrados = listaFunkopop.filter(function (producto){
+            //     return producto.codigo != boton.id;
+            // });
+            let productosFiltrados = listaFunkopop.filter(producto => producto.codigo != boton.id );
             console.log(productosFiltrados);
             // guardar el arreglo en localstorage
-
+            localStorage.setItem('listaFunkopopKey', JSON.stringify(productosFiltrados));
+            listaFunkopop = productosFiltrados;
             // invocar a la funcion leerdatos
-
+            leerDatos();
           Swal.fire(
             'Funkopop eliminado',
             'El funkopop seleccionado fue eliminado',
@@ -133,4 +141,70 @@ window.eliminarFunkopop = function (boton){
       })
 }
 
+window.prepararFunkopop = function (boton){
+  console.log(boton.id);
+  // buscar el objeto seleccionado
+  let funkopopEncontrado = listaFunkopop.find(producto => producto.codigo === boton.id);
+  console.log(funkopopEncontrado);
+  // cargar los datos en el formulario
+  document.getElementById('codigo').value = funkopopEncontrado.codigo;
+  document.getElementById('nombre').value = funkopopEncontrado.nombre;
+  document.getElementById('numSerie').value = funkopopEncontrado.numSerie;
+  document.getElementById('categoria').value = funkopopEncontrado.categoria;
+  document.getElementById('descripcion').value = funkopopEncontrado.descripcion;
+  document.getElementById('imagen').value = funkopopEncontrado.imagen;
+  // cambiar el valor de la variable modificarFunkopop
+  modificarFunkopop = true;
+  // mostrar el formulario
+  modalProducto.show();
+}
 
+
+window.guardarFunkopop = function (event){
+  event.preventDefault();
+  console.log('decidir cual funcion ejecutar');
+  // if(modificarFunkopop === true)
+  if(modificarFunkopop){
+    // quiero modificar el funko existente
+    editarFunkopop();
+  }else{
+    // quiero agregar un nuevo funko
+    agregarFunkopop();
+  }
+}
+
+function editarFunkopop(){
+  console.log('desde la funcion editar funkopop')
+  // validar nuevamente los datos
+  // en la funcion preparar funkopop agregar al campo codigo que sea readonly, clase de bootstrap disabled
+
+  // obtener los datos modificos
+  let codigo = document.getElementById('codigo').value;
+  let nombre = document.getElementById('nombre').value;
+  let numSerie = document.getElementById('numSerie').value;
+  let categoria = document.getElementById('categoria').value;
+  let descripcion = document.getElementById('descripcion').value;
+  let imagen = document.getElementById('imagen').value;
+  // una vez guardado el funkopop modificado limpiar el formulario
+  limpiarFormulario();
+
+  // buscar objeto dentro del arreglo listaFunkopop (findIndex)
+  for(let i in listaFunkopop){
+    if(listaFunkopop[i].codigo === codigo){
+      listaFunkopop[i].nombre = nombre;
+      listaFunkopop[i].numSerie = numSerie;
+      listaFunkopop[i].categoria = categoria;
+      listaFunkopop[i].descripcion = descripcion;
+      listaFunkopop[i].imagen = imagen;
+    }
+  }
+
+  // guardar el arreglo modificado en localstorage
+  localStorage.setItem('listaFunkopopKey', JSON.stringify(listaFunkopop));
+  // actualizar la tabla
+  leerDatos();
+  // mostrar una ventana de producto modificado con sweet alert
+  
+  // cerrar ventana modal
+  modalProducto.hide();
+}
