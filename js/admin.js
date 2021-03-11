@@ -204,7 +204,11 @@ function editarFunkopop(){
   // actualizar la tabla
   leerDatos();
   // mostrar una ventana de producto modificado con sweet alert
-  
+  Swal.fire(
+    'Producto modificado',
+    'El funkopop se actualizo correctamente',
+    'success'
+  )
   // cerrar ventana modal
   modalProducto.hide();
 }
